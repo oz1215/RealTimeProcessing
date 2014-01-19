@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2DD404C9188BAF9200745D05 /* MangaFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DD404C8188BAF9200745D05 /* MangaFilter.mm */; };
 		C2A8DDFC1711329600BDD869 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2A8DDFB1711329600BDD869 /* UIKit.framework */; };
 		C2A8DDFE1711329600BDD869 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2A8DDFD1711329600BDD869 /* Foundation.framework */; };
 		C2A8DE001711329600BDD869 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2A8DDFF1711329600BDD869 /* CoreGraphics.framework */; };
@@ -30,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2DD404C7188BAE6D00745D05 /* MangaFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MangaFilter.h; sourceTree = "<group>"; };
+		2DD404C8188BAF9200745D05 /* MangaFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MangaFilter.mm; sourceTree = "<group>"; };
 		C2A8DDF81711329600BDD869 /* RealTimeProcessing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealTimeProcessing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2A8DDFB1711329600BDD869 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C2A8DDFD1711329600BDD869 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -128,6 +131,8 @@
 				C2A8DE3317116DED00BDD869 /* OpenCVUtil.mm */,
 				C2A8DE351711703B00BDD869 /* MonochromeFilter.h */,
 				C2A8DE361711703B00BDD869 /* MonochromeFilter.mm */,
+				2DD404C7188BAE6D00745D05 /* MangaFilter.h */,
+				2DD404C8188BAF9200745D05 /* MangaFilter.mm */,
 				C2A8DDFA1711329600BDD869 /* Frameworks */,
 			);
 			path = RealTimeProcessing;
@@ -215,6 +220,7 @@
 			files = (
 				C2A8DE081711329600BDD869 /* main.m in Sources */,
 				C2A8DE0C1711329600BDD869 /* AppDelegate.m in Sources */,
+				2DD404C9188BAF9200745D05 /* MangaFilter.mm in Sources */,
 				C2A8DE181711329600BDD869 /* ViewController.m in Sources */,
 				C2A8DE3017116C7A00BDD869 /* AVFoundationUtil.m in Sources */,
 				C2A8DE3417116DED00BDD869 /* OpenCVUtil.mm in Sources */,
@@ -312,6 +318,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RealTimeProcessing/RealTimeProcessing-Prefix.pch";
 				INFOPLIST_FILE = "RealTimeProcessing/RealTimeProcessing-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -327,6 +334,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RealTimeProcessing/RealTimeProcessing-Prefix.pch";
 				INFOPLIST_FILE = "RealTimeProcessing/RealTimeProcessing-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

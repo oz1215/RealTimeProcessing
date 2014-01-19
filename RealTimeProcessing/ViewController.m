@@ -1,6 +1,7 @@
 #import "ViewController.h"
 #import "AVFoundationUtil.h"
 #import "MonochromeFilter.h"
+#import "MangaFilter.h"
 
 @interface ViewController () <AVCaptureVideoDataOutputSampleBufferDelegate>
 
@@ -20,6 +21,9 @@
 {
     [super viewDidLoad];
     
+    // 端末のスリープ設定をOFFにします。起動中にスリープモードになりません。
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
+    
     // プレビュー表示用レイヤー
     self.previewLayer = [CALayer layer];
     self.previewLayer.frame = self.view.bounds;
@@ -38,9 +42,9 @@
                                       action:nil];
     
     UIBarButtonItem *takePhotoButton = [[UIBarButtonItem alloc]
-                                        initWithBarButtonSystemItem:UIBarButtonSystemItemCamera
+                                        initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                         target:self
-                                        action:@selector(takePhoto:)];
+                                        action:@selector(changeCamera:)];
     
     toolbar.items = @[flexibleSpace, takePhotoButton, flexibleSpace];
     [self.view addSubview:toolbar];
@@ -51,12 +55,15 @@
     [super viewWillAppear:animated];
     
     // 撮影開始
-    [self setupAVCapture];
+    [self setupAVCapture:AVCaptureDevicePositionBack];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    
+    // 端末のスリープ設定をONにします。起動中にスリープモードになります。
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
     
     // 撮影終了
     [self teardownAVCapture];
@@ -82,9 +89,26 @@
 
 }
 
+- (void)changeCamera:(id)sender
+{
+    // シャッター音を鳴らす
+    AudioServicesPlaySystemSound(1108);
+    // 撮影終了
+    [self teardownAVCapture];
+    
+    // 撮影開始
+    if (self.isUsingFrontFacingCamera) {
+        self.isUsingFrontFacingCamera = !self.isUsingFrontFacingCamera;
+        [self setupAVCapture:AVCaptureDevicePositionBack];
+    } else {
+        self.isUsingFrontFacingCamera = !self.isUsingFrontFacingCamera;
+        [self setupAVCapture:AVCaptureDevicePositionFront];
+    }
+}
+
 #pragma mark - Private methods
 
-- (void)setupAVCapture
+- (void)setupAVCapture:(AVCaptureDevicePosition)avCaptureDevicePosition
 {
     // 入力と出力からキャプチャーセッションを作成
     self.session = [[AVCaptureSession alloc] init];
@@ -98,19 +122,14 @@
     // カメラからの入力を作成
     AVCaptureDevice *device;
     
-    // フロントカメラを検索
+    // カメラを検索
 	for (AVCaptureDevice *d in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]) {
-		if ([d position] == AVCaptureDevicePositionFront) {
+		if ([d position] == avCaptureDevicePosition) {
 			device = d;
-            self.isUsingFrontFacingCamera = YES;
+            self.isUsingFrontFacingCamera = avCaptureDevicePosition == AVCaptureDevicePositionFront;
 			break;
 		}
 	}
-    // フロントカメラがなければデフォルトのカメラ（バックカメラ）を使用
-    if (!device) {
-        self.isUsingFrontFacingCamera = NO;
-        device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    }
     
     // カメラからの入力を作成
     NSError *error = nil;
@@ -176,7 +195,8 @@
 - (void)process:(UIImage *)image
 {
     // 画像を白黒に加工
-    UIImage *processedImage = [MonochromeFilter doFilter:image];
+    //UIImage *processedImage = [MonochromeFilter doFilter:image];
+    UIImage *processedImage = [MangaFilter doFilter:image];
     
     // 加工した画像をプレビューレイヤーに追加
     self.previewLayer.contents = (__bridge id)(processedImage.CGImage);
@@ -184,6 +204,8 @@
     // フロントカメラの場合は左右反転
     if (self.isUsingFrontFacingCamera) {
         self.previewLayer.affineTransform = CGAffineTransformMakeScale(-1.0f, 1.0f);
+    }else{
+        self.previewLayer.affineTransform = CGAffineTransformMakeScale(1.0f, 1.0f);
     }
 }
 
