@@ -1,7 +1,7 @@
 #import "ViewController.h"
 #import "AVFoundationUtil.h"
 #import "MonochromeFilter.h"
-#import "MangaFilter.h"
+#import "LineFilter.h"
 
 @interface ViewController () <AVCaptureVideoDataOutputSampleBufferDelegate>
 
@@ -27,6 +27,7 @@
     // プレビュー表示用レイヤー
     self.previewLayer = [CALayer layer];
     self.previewLayer.frame = self.view.bounds;
+    self.previewLayer.contentsGravity = kCAGravityResizeAspectFill;
     [self.view.layer addSublayer:self.previewLayer];
 
     // 撮影ボタンを配置したツールバーを生成
@@ -173,8 +174,8 @@
     AVCaptureConnection *videoConnection = [self.videoDataOutput connectionWithMediaType:AVMediaTypeVideo];
     videoConnection.videoOrientation = [AVFoundationUtil videoOrientationFromDeviceOrientation:[UIDevice currentDevice].orientation];
     
-    // 1秒あたり64回画像をキャプチャ
-    videoConnection.videoMinFrameDuration = CMTimeMake(1, 64);
+    // 1秒あたり24回画像をキャプチャ
+    videoConnection.videoMinFrameDuration = CMTimeMake(1, 24);
     
     // 開始
     [self.session startRunning];
@@ -196,7 +197,7 @@
 {
     // 画像を白黒に加工
     //UIImage *processedImage = [MonochromeFilter doFilter:image];
-    UIImage *processedImage = [MangaFilter doFilter:image];
+    UIImage *processedImage = [LineFilter doFilter:image];
     
     // 加工した画像をプレビューレイヤーに追加
     self.previewLayer.contents = (__bridge id)(processedImage.CGImage);

@@ -3,7 +3,7 @@
 /**
  画像を漫画風に加工する
  */
-@interface MangaFilter : NSObject
+@interface LineFilter : NSObject
 
 /**
  フィルター処理
