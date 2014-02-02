@@ -175,7 +175,7 @@
     videoConnection.videoOrientation = [AVFoundationUtil videoOrientationFromDeviceOrientation:[UIDevice currentDevice].orientation];
     
     // 1秒あたり24回画像をキャプチャ
-    videoConnection.videoMinFrameDuration = CMTimeMake(1, 24);
+    videoConnection.videoMinFrameDuration = CMTimeMake(1, 6);
     
     // 開始
     [self.session startRunning];
