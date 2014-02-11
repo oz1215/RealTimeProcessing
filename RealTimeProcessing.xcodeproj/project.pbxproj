@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2D875A71189ED372009E3D80 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D875A70189ED372009E3D80 /* Images.xcassets */; };
+		2D875A7318A9B580009E3D80 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D875A7218A9B580009E3D80 /* CoreMotion.framework */; };
+		2D875A7618A9C019009E3D80 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D875A7518A9C019009E3D80 /* Toast+UIView.m */; };
 		2DD404C9188BAF9200745D05 /* LineFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DD404C8188BAF9200745D05 /* LineFilter.mm */; };
 		C2A8DDFC1711329600BDD869 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2A8DDFB1711329600BDD869 /* UIKit.framework */; };
 		C2A8DDFE1711329600BDD869 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2A8DDFD1711329600BDD869 /* Foundation.framework */; };
@@ -27,12 +29,14 @@
 		C2A8DE2D17116A4900BDD869 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2A8DE2C17116A4900BDD869 /* opencv2.framework */; };
 		C2A8DE3017116C7A00BDD869 /* AVFoundationUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = C2A8DE2F17116C7A00BDD869 /* AVFoundationUtil.m */; };
 		C2A8DE3417116DED00BDD869 /* OpenCVUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = C2A8DE3317116DED00BDD869 /* OpenCVUtil.mm */; };
-		C2A8DE371711703B00BDD869 /* MonochromeFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = C2A8DE361711703B00BDD869 /* MonochromeFilter.mm */; };
 		C2A8DE391711AF3200BDD869 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2A8DE381711AF3100BDD869 /* AudioToolbox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2D875A70189ED372009E3D80 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2D875A7218A9B580009E3D80 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		2D875A7418A9BF9F009E3D80 /* Toast+UIView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
+		2D875A7518A9C019009E3D80 /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		2DD404C7188BAE6D00745D05 /* LineFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineFilter.h; sourceTree = "<group>"; };
 		2DD404C8188BAF9200745D05 /* LineFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LineFilter.mm; sourceTree = "<group>"; };
 		C2A8DDF81711329600BDD869 /* RealTimeProcessing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealTimeProcessing.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,8 +64,6 @@
 		C2A8DE2F17116C7A00BDD869 /* AVFoundationUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVFoundationUtil.m; sourceTree = "<group>"; };
 		C2A8DE3217116DED00BDD869 /* OpenCVUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVUtil.h; sourceTree = "<group>"; };
 		C2A8DE3317116DED00BDD869 /* OpenCVUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVUtil.mm; sourceTree = "<group>"; };
-		C2A8DE351711703B00BDD869 /* MonochromeFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonochromeFilter.h; sourceTree = "<group>"; };
-		C2A8DE361711703B00BDD869 /* MonochromeFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MonochromeFilter.mm; sourceTree = "<group>"; };
 		C2A8DE381711AF3100BDD869 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -70,8 +72,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2A8DE391711AF3200BDD869 /* AudioToolbox.framework in Frameworks */,
 				C2A8DE2B1711578B00BDD869 /* QuartzCore.framework in Frameworks */,
+				2D875A7318A9B580009E3D80 /* CoreMotion.framework in Frameworks */,
+				C2A8DE391711AF3200BDD869 /* AudioToolbox.framework in Frameworks */,
 				C2A8DE2717113E0F00BDD869 /* CoreMedia.framework in Frameworks */,
 				C2A8DE2317113A6700BDD869 /* CoreVideo.framework in Frameworks */,
 				C2A8DE1F171133EC00BDD869 /* AVFoundation.framework in Frameworks */,
@@ -88,6 +91,7 @@
 		C2A8DDEF1711329600BDD869 = {
 			isa = PBXGroup;
 			children = (
+				2D875A7218A9B580009E3D80 /* CoreMotion.framework */,
 				C2A8DE011711329600BDD869 /* RealTimeProcessing */,
 				C2A8DDF91711329600BDD869 /* Products */,
 			);
@@ -131,12 +135,12 @@
 				C2A8DE2F17116C7A00BDD869 /* AVFoundationUtil.m */,
 				C2A8DE3217116DED00BDD869 /* OpenCVUtil.h */,
 				C2A8DE3317116DED00BDD869 /* OpenCVUtil.mm */,
-				C2A8DE351711703B00BDD869 /* MonochromeFilter.h */,
-				C2A8DE361711703B00BDD869 /* MonochromeFilter.mm */,
 				2DD404C7188BAE6D00745D05 /* LineFilter.h */,
 				2DD404C8188BAF9200745D05 /* LineFilter.mm */,
 				C2A8DDFA1711329600BDD869 /* Frameworks */,
 				2D875A70189ED372009E3D80 /* Images.xcassets */,
+				2D875A7418A9BF9F009E3D80 /* Toast+UIView.h */,
+				2D875A7518A9C019009E3D80 /* Toast+UIView.m */,
 			);
 			path = RealTimeProcessing;
 			sourceTree = "<group>";
@@ -227,8 +231,8 @@
 				2DD404C9188BAF9200745D05 /* LineFilter.mm in Sources */,
 				C2A8DE181711329600BDD869 /* ViewController.m in Sources */,
 				C2A8DE3017116C7A00BDD869 /* AVFoundationUtil.m in Sources */,
+				2D875A7618A9C019009E3D80 /* Toast+UIView.m in Sources */,
 				C2A8DE3417116DED00BDD869 /* OpenCVUtil.mm in Sources */,
-				C2A8DE371711703B00BDD869 /* MonochromeFilter.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

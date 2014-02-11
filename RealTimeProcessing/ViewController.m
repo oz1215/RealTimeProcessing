@@ -1,7 +1,8 @@
 #import "ViewController.h"
 #import "AVFoundationUtil.h"
-#import "MonochromeFilter.h"
 #import "LineFilter.h"
+#import "Toast+UIView.h"
+#import "AppDelegate.h"
 
 @interface ViewController () <AVCaptureVideoDataOutputSampleBufferDelegate>
 
@@ -10,6 +11,7 @@
 @property (assign, nonatomic) BOOL isUsingFrontFacingCamera;
 @property (nonatomic) dispatch_queue_t videoDataOutputQueue;
 @property (strong, nonatomic) CALayer *previewLayer;
+@property AppDelegate* appDelegate;
 
 @end
 
@@ -23,6 +25,10 @@
     
     // 端末のスリープ設定をOFFにします。起動中にスリープモードになりません。
     [UIApplication sharedApplication].idleTimerDisabled = YES;
+    
+    [self startUpdatingActivity];
+    _appDelegate = [[UIApplication sharedApplication] delegate];
+    _appDelegate.isStationary = NO;
     
     // プレビュー表示用レイヤー
     self.previewLayer = [CALayer layer];
@@ -63,6 +69,8 @@
 {
     [super viewDidDisappear:animated];
     
+    [_activityManager stopActivityUpdates];
+    
     // 端末のスリープ設定をONにします。起動中にスリープモードになります。
     [UIApplication sharedApplication].idleTimerDisabled = NO;
     
@@ -70,7 +78,51 @@
     [self teardownAVCapture];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 #pragma mark - Action methods
+
+- (void)startUpdatingActivity
+{
+    if (![CMMotionActivityManager isActivityAvailable])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"CMMotionActivityManager is unavailable."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    // ブロックによる循環参照の回避
+    __weak typeof(self) weakSelf = self;
+    
+    _activityManager = [[CMMotionActivityManager alloc] init];
+    [_activityManager startActivityUpdatesToQueue:[NSOperationQueue mainQueue]
+                                      withHandler:^(CMMotionActivity *activity) {
+                                          _appDelegate.isStationary = activity.stationary;
+                                          NSString *msg;
+                                          if(activity.walking){
+                                              msg = @"歩行中";
+                                          } else if (activity.stationary && activity.automotive) {
+                                              msg = @"停車中";
+                                          } else if (!activity.stationary && activity.automotive) {
+                                              msg = @"運転中";
+                                          } else if (activity.stationary) {
+                                              msg = @"静止中";
+                                          } else if (activity.unknown) {
+                                              msg = @"不明";
+                                          }
+                                          if(msg != nil){
+                                              [self.view makeToast:msg];
+                                          }
+                                      }];
+}
 
 - (void)takePhoto:(id)sender
 {
@@ -175,7 +227,7 @@
     videoConnection.videoOrientation = [AVFoundationUtil videoOrientationFromDeviceOrientation:[UIDevice currentDevice].orientation];
     
     // 1秒あたり24回画像をキャプチャ
-    videoConnection.videoMinFrameDuration = CMTimeMake(1, 6);
+    videoConnection.videoMinFrameDuration = CMTimeMake(1, 1);
     
     // 開始
     [self.session startRunning];

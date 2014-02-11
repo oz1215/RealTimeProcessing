@@ -1,7 +1,11 @@
 #import "LineFilter.h"
 #import "OpenCVUtil.h"
+#import <AudioToolbox/AudioServices.h>
+#import "AppDelegate.h"
 
 @implementation LineFilter
+
+double _previous_area = 0;
 
 + (UIImage *)doFilter:(UIImage *)image
 {
@@ -116,9 +120,10 @@
             // Find contours and store them in a list
             findContours(gray, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
             
+            std::vector<double> areas;
             // Test contours
             std::vector<cv::Point> approx;
-            for (size_t i = 0; i < contours.size(); i++)
+            for (size_t i = 0; i < contours.size(); ++i)
             {
                 // approximate contour with accuracy proportional
                 // to the contour perimeter
@@ -127,8 +132,9 @@
                 // Note: absolute value of an area is used because
                 // area may be positive or negative - in accordance with the
                 // contour orientation
+                double area = fabs(contourArea(cv::Mat(approx)));
                 if (approx.size() == 4 &&
-                    fabs(contourArea(cv::Mat(approx))) > 1000 &&
+                    100 < area && area < 1000 &&
                     isContourConvex(cv::Mat(approx)))
                 {
                     double maxCosine = 0;
@@ -142,11 +148,25 @@
                     if (maxCosine < 0.3){
                         cv::Rect rect = boundingRect(approx);
                         double ratio = rect.width/rect.height;
-                        if(1.90 < ratio && ratio < 2.10) {
+                        if(1.50 < ratio && ratio < 2.50) {
                             squares.push_back(approx);
+                            areas.push_back(area);
                         }
                     }
                 }
+            }
+            if(areas.size() != 0) {
+                AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                double current_area = *max_element(areas.begin(), areas.end());
+//                if(appDelegate.isStationary && current_area < _previous_area){
+//                    AudioServicesPlaySystemSound(1010);
+//                }
+                if(current_area < _previous_area){
+                    AudioServicesPlaySystemSound(1010);
+                }
+                _previous_area = current_area;
+                int i = 3;
+                i;
             }
         }
     }

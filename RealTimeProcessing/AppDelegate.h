@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    BOOL isStationary;
+}
+@property (nonatomic) BOOL isStationary;
 
 @property (strong, nonatomic) UIWindow *window;
 
