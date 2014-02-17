@@ -35,26 +35,6 @@
     self.previewLayer.frame = self.view.bounds;
     self.previewLayer.contentsGravity = kCAGravityResizeAspectFill;
     [self.view.layer addSublayer:self.previewLayer];
-
-    // 撮影ボタンを配置したツールバーを生成
-    UIToolbar *toolbar = [[UIToolbar alloc]
-                          initWithFrame:CGRectMake(0.0f,
-                                                   self.view.bounds.size.height - 44.0f,
-                                                   self.view.bounds.size.width,
-                                                   44.0f)];
-    
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc]
-                                      initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                      target:nil
-                                      action:nil];
-    
-    UIBarButtonItem *takePhotoButton = [[UIBarButtonItem alloc]
-                                        initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-                                        target:self
-                                        action:@selector(changeCamera:)];
-    
-    toolbar.items = @[flexibleSpace, takePhotoButton, flexibleSpace];
-    [self.view addSubview:toolbar];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -122,41 +102,6 @@
                                               [self.view makeToast:msg];
                                           }
                                       }];
-}
-
-- (void)takePhoto:(id)sender
-{
-    // シャッター音を鳴らす
-    AudioServicesPlaySystemSound(1108);
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // プレビュー表示中のレイヤーを画像にして保存する
-        UIGraphicsBeginImageContext(self.previewLayer.bounds.size);
-        [self.previewLayer renderInContext:UIGraphicsGetCurrentContext()];
-        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        // アルバムに画像を保存
-        UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
-    });
-
-}
-
-- (void)changeCamera:(id)sender
-{
-    // シャッター音を鳴らす
-    AudioServicesPlaySystemSound(1108);
-    // 撮影終了
-    [self teardownAVCapture];
-    
-    // 撮影開始
-    if (self.isUsingFrontFacingCamera) {
-        self.isUsingFrontFacingCamera = !self.isUsingFrontFacingCamera;
-        [self setupAVCapture:AVCaptureDevicePositionBack];
-    } else {
-        self.isUsingFrontFacingCamera = !self.isUsingFrontFacingCamera;
-        [self setupAVCapture:AVCaptureDevicePositionFront];
-    }
 }
 
 #pragma mark - Private methods
